@@ -6,6 +6,8 @@ public class helloworld {
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(800, 480);
+        f.setResizable(false);
+        f.setLocationRelativeTo(null);
         System.out.println("Hello world");
     }
 }
