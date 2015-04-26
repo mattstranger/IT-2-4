@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static java.lang.System.exit;
+
 public class FirstScreen extends JFrame {
     JButton op1, op2, s1, s2, s3, s4, s5, s6, ex;
     JLabel intro;
@@ -65,6 +67,11 @@ public class FirstScreen extends JFrame {
         ex.setSize(752, 64);
         ex.setLocation(21, 368);
         add(ex);
+        ex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                exit(0);
+            }
+        });
     }
 
 }

@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+
+import static java.lang.System.exit;
 
 public class PlayScreen extends JFrame {
     JButton ng, ex;
@@ -9,7 +12,7 @@ public class PlayScreen extends JFrame {
     boolean c = true;
 
 
-    public PlayScreen(String title, int level){
+    public PlayScreen(String title, int level) {
         super(title);
         setLayout(null);
 
@@ -21,15 +24,15 @@ public class PlayScreen extends JFrame {
         field.setLayout(null);
 
         gzone = new JPanel();
-        gzone.setSize(level*60+30, level*60+30);
-        gzone.setLocation(225-30*level, 210-30*level);
+        gzone.setSize(level * 60 + 30, level * 60 + 30);
+        gzone.setLocation(225 - 30 * level, 210 - 30 * level);
         field.add(gzone);
 
-        gzone.setLayout(new GridLayout(3*(2*level+1), 3*(2*level+1), 0, 0));
-        cell = new JPanel[3*(2*level+1)][3*(2*level+1)];
+        gzone.setLayout(new GridLayout(3 * (2 * level + 1), 3 * (2 * level + 1), 0, 0));
+        cell = new JPanel[3 * (2 * level + 1)][3 * (2 * level + 1)];
 
-        for (i=0; i< 3*(2*level+1); i++)
-            for (j = 0; j < 3*(2*level+1); j++)
+        for (i = 0; i < 3 * (2 * level + 1); i++)
+            for (j = 0; j < 3 * (2 * level + 1); j++)
                 if ((i + 5) % 6 == 0) {
                     if ((j + 2) % 6 == 0) {
                         cell[i][j] = new JPanel();
@@ -57,13 +60,13 @@ public class PlayScreen extends JFrame {
                 }
 
 
-
         step = new JLabel("<html><font size=5>ХОД: " + stepn + "</font></html>");
         step.setSize(272, 64);
         step.setLocation(504, 16);
         add(step);
 
-        if (c) wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=blue>синий</font> игрок</font></html>");
+        if (c)
+            wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=blue>синий</font> игрок</font></html>");
         else wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=red>красный</font> игрок</font></html>");
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
@@ -79,6 +82,12 @@ public class PlayScreen extends JFrame {
         ex.setSize(272, 64);
         ex.setLocation(504, 368);
         add(ex);
-
+        ex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                exit(0);
+            }
+        });
     }
 }
+
+
