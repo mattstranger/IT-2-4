@@ -10,7 +10,7 @@ public class FirstScreen extends JFrame {
         super(title);
         setLayout(null);
 
-        intro = new JLabel("<html><font size=5><p align=center size=18pt>Данная программа реализует игру Бридж-Ит, " +
+        intro = new JLabel("<html><font size=5><p align=center>Данная программа реализует игру Бридж-Ит, " +
                 "целью которой является соединить противолежащие игрового поля стороны ломаной линией: для " +
                 "<font color=blue>синего</font> игрока - верхнюю и нижнюю, для <font color=red>красного</font> - " +
                 "левую и правую.<br><br>Пожалуйста, выберете оппонента и размер игрового поля:</p></font></html>");
