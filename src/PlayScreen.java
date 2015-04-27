@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static java.lang.Math.abs;
 import static java.lang.System.exit;
 
 public class PlayScreen extends JFrame {
@@ -91,9 +92,12 @@ public class PlayScreen extends JFrame {
         gzone.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getX()>30 && e.getX()<60 && e.getY()>30 && e.getY()<60)
-                    for (int j=2; j<7; j++)
-                        cell[4][j].setBackground(Color.red);
+                if ((e.getX()-15)%60>0 && (e.getX()-15)%60<60 && ((e.getY()-15)%60>abs(e.getX()-45)%60) && ((e.getY()-15)%60<60-abs(e.getX()-45)%60))
+                    for (int i=((e.getY()-15)/60)*6+2; i<((e.getY()-15)/60)*6+7; i++)
+                        cell[i][((e.getX()-15)/60)*6+4].setBackground(Color.blue);
+                else if ((e.getX()-45)%60>0 && (e.getX()-45)%60<60 && ((e.getY()-45)%60>abs(e.getX()-75)%60) && ((e.getY()-75)%60<60-abs(e.getX()-75)%60))
+                    for (int j=((e.getX()-45)/60)*6+5; j<((e.getX()-45)/60)*6+10; j++)
+                        cell[((e.getY()-45)/60)*6+7][j].setBackground(Color.blue);
             }
 
             @Override
