@@ -7,6 +7,9 @@ import static java.lang.System.exit;
 public class FirstScreen extends JFrame {
     JButton op1, op2, s1, s2, s3, s4, s5, s6, ex;
     JLabel intro;
+    boolean b = true;
+    int cond[] = new int[2];
+
 
     public FirstScreen (String title){
         super(title);
@@ -24,42 +27,64 @@ public class FirstScreen extends JFrame {
         op1 = new JButton("<html><font size=5>компьютер</font></html>");
         op1.setSize(192, 64);
         op1.setLocation(154, 192);
+        op1.setBackground(Color.LIGHT_GRAY);
         add(op1);
+        op1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (b) {
+                    op1.setBackground(Color.GRAY);
+                    b = false;
+                    cond[0] = 1;
+                } else {
+                    op1.setBackground(Color.LIGHT_GRAY);
+                    b = true;
+                    cond[0] = 0;
+                }
+
+            }
+        });
 
         op2 = new JButton("<html><font size=5>человек</font></html>");
         op2.setSize(192, 64);
         op2.setLocation(154, 272);
+        op2.setBackground(Color.LIGHT_GRAY);
         add(op2);
 
 
         s1 = new JButton("<html><font size=5>2</font></html>");
         s1.setSize(64, 64);
         s1.setLocation(426, 192);
+        s1.setBackground(Color.LIGHT_GRAY);
         add(s1);
 
         s2 = new JButton("<html><font size=5>3</font></html>");
         s2.setSize(64, 64);
         s2.setLocation(506, 192);
+        s2.setBackground(Color.LIGHT_GRAY);
         add(s2);
 
         s3 = new JButton("<html><font size=5>4</font></html>");
         s3.setSize(64, 64);
         s3.setLocation(586, 192);
+        s3.setBackground(Color.LIGHT_GRAY);
         add(s3);
 
         s4 = new JButton("<html><font size=5>5</font></html>");
         s4.setSize(64, 64);
         s4.setLocation(426, 272);
+        s4.setBackground(Color.LIGHT_GRAY);
         add(s4);
 
         s5 = new JButton("<html><font size=5>6</font></html>");
         s5.setSize(64, 64);
         s5.setLocation(506, 272);
+        s5.setBackground(Color.LIGHT_GRAY);
         add(s5);
 
         s6 = new JButton("<html><font size=5>7</font></html>");
         s6.setSize(64, 64);
         s6.setLocation(586, 272);
+        s6.setBackground(Color.LIGHT_GRAY);
         add(s6);
 
 
@@ -69,7 +94,8 @@ public class FirstScreen extends JFrame {
         add(ex);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                exit(0);
+                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?") == JOptionPane.YES_OPTION)
+                    System.exit(0);
             }
         });
     }

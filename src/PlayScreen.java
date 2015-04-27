@@ -78,6 +78,12 @@ public class PlayScreen extends JFrame {
         ng.setSize(272, 64);
         ng.setLocation(504, 288);
         add(ng);
+        ng.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите начать новую игру?") == JOptionPane.YES_OPTION)
+                    setVisible(false);
+            }
+        });
 
         ex = new JButton("<html><font size=6>В Ы Х О Д</font></html>");
         ex.setSize(272, 64);
@@ -85,18 +91,19 @@ public class PlayScreen extends JFrame {
         add(ex);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                exit(0);
+                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?") == JOptionPane.YES_OPTION)
+                    System.exit(0);
             }
         });
 
         gzone.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if ((e.getX()-15)%60>0 && (e.getX()-15)%60<60 && ((e.getY()-15)%60>abs(e.getX()-45)%60) && ((e.getY()-15)%60<60-abs(e.getX()-45)%60))
+                if ((e.getX()-15)%60>0 && (e.getX()-15)%60<60 && ((e.getY()-15)%60>abs(e.getX()-45)%60) && ((e.getY()-15)%60<60-abs(e.getX()-45)%60) && (e.getX()-15)/60<level && (e.getY()-15)/60<level)
                     for (int i=((e.getY()-15)/60)*6+2; i<((e.getY()-15)/60)*6+7; i++)
                         cell[i][((e.getX()-15)/60)*6+4].setBackground(Color.blue);
-                else if ((e.getX()-45)%60>0 && (e.getX()-45)%60<60 && ((e.getY()-45)%60>abs(e.getX()-75)%60) && ((e.getY()-75)%60<60-abs(e.getX()-75)%60))
-                    for (int j=((e.getX()-45)/60)*6+5; j<((e.getX()-45)/60)*6+10; j++)
+                else if ((e.getX()-45)%60>0 && (e.getX()-45)%60<60 && ((e.getY()-45)%60>abs(e.getX()-75)%60) && ((e.getY()-75)%60<60-abs(e.getX()-75)%60) && (e.getX()-45)/60<level-1 && (e.getY()-45)/60<level-1)
+                    for (int j=((e.getX()-45)/60) *6+5; j<((e.getX()-45)/60)*6+10; j++)
                         cell[((e.getY()-45)/60)*6+7][j].setBackground(Color.blue);
             }
 
