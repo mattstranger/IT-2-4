@@ -87,6 +87,35 @@ public class PlayScreen extends JFrame {
                 exit(0);
             }
         });
+
+        gzone.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getX()>30 && e.getX()<60 && e.getY()>30 && e.getY()<60)
+                    for (int j=2; j<7; j++)
+                        cell[4][j].setBackground(Color.red);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 }
 
