@@ -13,7 +13,7 @@ public class PlayScreen extends JFrame {
     boolean c = true;
 
 
-    public PlayScreen(String title, int level) {
+    public PlayScreen(String title, final int level) {
         super(title);
         setLayout(null);
 

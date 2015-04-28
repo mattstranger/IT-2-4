@@ -1,19 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.event.ActionEvent;
 
 import static java.lang.System.exit;
 
 public class FirstScreen extends JFrame {
-    JButton op1, op2, s1, s2, s3, s4, s5, s6, ex;
+    JButton ex;
     JLabel intro;
-    boolean b = true;
     int cond[] = new int[2];
-
+    JButton op[] = new JButton[2];
+    JButton s[] = new JButton[6];
 
     public FirstScreen (String title){
         super(title);
         setLayout(null);
+
 
         intro = new JLabel("<html><font size=5><p align=center>Данная программа реализует игру Бридж-Ит, " +
                 "целью которой является соединить противолежащие игрового поля стороны ломаной линией: для " +
@@ -24,68 +26,63 @@ public class FirstScreen extends JFrame {
         add(intro);
 
 
-        op1 = new JButton("<html><font size=5>компьютер</font></html>");
-        op1.setSize(192, 64);
-        op1.setLocation(154, 192);
-        op1.setBackground(Color.LIGHT_GRAY);
-        add(op1);
-        op1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (b) {
-                    op1.setBackground(Color.GRAY);
-                    b = false;
-                    cond[0] = 1;
-                } else {
-                    op1.setBackground(Color.LIGHT_GRAY);
-                    b = true;
-                    cond[0] = 0;
-                }
+        op[0] = new JButton("<html><font size=5>компьютер</font></html>");
+        op[0].setSize(192, 64);
+        op[0].setLocation(154, 192);
+        op[0].setBackground(Color.LIGHT_GRAY);
+        add(op[0]);
+        op[0].addActionListener(new OpChoice(op, cond, 0, 0));
 
-            }
-        });
-
-        op2 = new JButton("<html><font size=5>человек</font></html>");
-        op2.setSize(192, 64);
-        op2.setLocation(154, 272);
-        op2.setBackground(Color.LIGHT_GRAY);
-        add(op2);
+        op[1] = new JButton("<html><font size=5>человек</font></html>");
+        op[1].setSize(192, 64);
+        op[1].setLocation(154, 272);
+        op[1].setBackground(Color.LIGHT_GRAY);
+        add(op[1]);
+        op[1].addActionListener(new OpChoice(op, cond, 1, 0));
 
 
-        s1 = new JButton("<html><font size=5>2</font></html>");
-        s1.setSize(64, 64);
-        s1.setLocation(426, 192);
-        s1.setBackground(Color.LIGHT_GRAY);
-        add(s1);
+        s[0] = new JButton("<html><font size=5>2</font></html>");
+        s[0].setSize(64, 64);
+        s[0].setLocation(426, 192);
+        s[0].setBackground(Color.LIGHT_GRAY);
+        add(s[0]);
+        s[0].addActionListener(new OpChoice(s, cond, 0, 1));
 
-        s2 = new JButton("<html><font size=5>3</font></html>");
-        s2.setSize(64, 64);
-        s2.setLocation(506, 192);
-        s2.setBackground(Color.LIGHT_GRAY);
-        add(s2);
+        s[1] = new JButton("<html><font size=5>3</font></html>");
+        s[1].setSize(64, 64);
+        s[1].setLocation(506, 192);
+        s[1].setBackground(Color.LIGHT_GRAY);
+        add(s[1]);
+        s[1].addActionListener(new OpChoice(s, cond, 1, 1));
 
-        s3 = new JButton("<html><font size=5>4</font></html>");
-        s3.setSize(64, 64);
-        s3.setLocation(586, 192);
-        s3.setBackground(Color.LIGHT_GRAY);
-        add(s3);
 
-        s4 = new JButton("<html><font size=5>5</font></html>");
-        s4.setSize(64, 64);
-        s4.setLocation(426, 272);
-        s4.setBackground(Color.LIGHT_GRAY);
-        add(s4);
+        s[2] = new JButton("<html><font size=5>4</font></html>");
+        s[2].setSize(64, 64);
+        s[2].setLocation(586, 192);
+        s[2].setBackground(Color.LIGHT_GRAY);
+        add(s[2]);
+        s[2].addActionListener(new OpChoice(s, cond, 2, 1));
 
-        s5 = new JButton("<html><font size=5>6</font></html>");
-        s5.setSize(64, 64);
-        s5.setLocation(506, 272);
-        s5.setBackground(Color.LIGHT_GRAY);
-        add(s5);
+        s[3] = new JButton("<html><font size=5>5</font></html>");
+        s[3].setSize(64, 64);
+        s[3].setLocation(426, 272);
+        s[3].setBackground(Color.LIGHT_GRAY);
+        add(s[3]);
+        s[3].addActionListener(new OpChoice(s, cond, 3, 1));
 
-        s6 = new JButton("<html><font size=5>7</font></html>");
-        s6.setSize(64, 64);
-        s6.setLocation(586, 272);
-        s6.setBackground(Color.LIGHT_GRAY);
-        add(s6);
+        s[4] = new JButton("<html><font size=5>6</font></html>");
+        s[4].setSize(64, 64);
+        s[4].setLocation(506, 272);
+        s[4].setBackground(Color.LIGHT_GRAY);
+        add(s[4]);
+        s[4].addActionListener(new OpChoice(s, cond, 4, 1));
+
+        s[5] = new JButton("<html><font size=5>7</font></html>");
+        s[5].setSize(64, 64);
+        s[5].setLocation(586, 272);
+        s[5].setBackground(Color.LIGHT_GRAY);
+        add(s[5]);
+        s[5].addActionListener(new OpChoice(s, cond, 5, 1));
 
 
         ex = new JButton("<html><font size=6>В Ы Х О Д</font></html>");
@@ -99,5 +96,4 @@ public class FirstScreen extends JFrame {
             }
         });
     }
-
 }

@@ -9,7 +9,7 @@ public class helloworld {
         f.setResizable(false);
         f.setLocationRelativeTo(null);
 
-        PlayScreen p = new PlayScreen("Bridge-It", 5);
+        PlayScreen p = new PlayScreen("Bridge-It", 7);
         p.setVisible(true);
         p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         p.setSize(800, 480);
