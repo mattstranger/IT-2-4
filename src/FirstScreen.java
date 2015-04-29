@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-
-import static java.lang.System.exit;
 
 public class FirstScreen extends JFrame {
     JButton ex;
@@ -12,7 +9,7 @@ public class FirstScreen extends JFrame {
     JButton op[] = new JButton[2];
     JButton s[] = new JButton[6];
 
-    public FirstScreen (String title){
+    public FirstScreen (String title) {
         super(title);
         setLayout(null);
 
@@ -96,4 +93,15 @@ public class FirstScreen extends JFrame {
             }
         });
     }
+
+    public int[] PushChoice() {
+        if (cond[0] != 0 && cond[1] != 0){
+            cond[1]++;
+            this.dispose();
+            return cond;
+        }
+
+        return cond;
+    }
+
 }

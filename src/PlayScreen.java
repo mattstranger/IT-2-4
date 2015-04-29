@@ -11,11 +11,14 @@ public class PlayScreen extends JFrame {
     JPanel field, gzone, cell[][];
     int stepn = 0, i, j;
     boolean c = true;
+    static char desk[][];
 
 
     public PlayScreen(String title, final int level) {
         super(title);
         setLayout(null);
+
+        desk = StartGame(level);
 
         field = new JPanel();
         field.setSize(480, 450);
@@ -66,8 +69,7 @@ public class PlayScreen extends JFrame {
         step.setLocation(504, 16);
         add(step);
 
-        if (c)
-            wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=blue>синий</font> игрок</font></html>");
+        if (c) wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=blue>синий</font> игрок</font></html>");
         else wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=red>красный</font> игрок</font></html>");
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
@@ -127,6 +129,24 @@ public class PlayScreen extends JFrame {
 
             }
         });
+    }
+
+    public static char[][] StartGame (int range)
+    {
+        char temp[][];
+        int i, j;
+
+        temp = new char[range][];
+        for (i=0; i<range-1; i++)
+        {
+            temp[i] = new char [2*range-1];
+            for (j=0; j<2*range-1; j++)
+                temp[i][j] = '0';
+        }
+        temp[i] = new char [range];
+        for (j=0; j<range; j++)
+            temp[i][j] = '0';
+        return temp;
     }
 }
 
