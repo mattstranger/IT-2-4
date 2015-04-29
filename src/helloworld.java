@@ -19,7 +19,7 @@ public class helloworld {
 
         Thread.sleep(100);
 
-        PlayScreen p = new PlayScreen("Bridge-It", start[1]);
+        PlayScreen p = new PlayScreen("Bridge-It", start[0], start[1]);
         p.setVisible(true);
         p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         p.setSize(800, 480);

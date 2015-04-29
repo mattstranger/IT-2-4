@@ -6,18 +6,17 @@ import static java.lang.Math.abs;
 
 public class PlayScreen extends JFrame {
     JButton ng, ex;
-    static JLabel step;
-    JLabel wplayer;
+    static JLabel step, cplayer;
+    JLabel wstep, wplayer;
     JPanel field, gzone, cell[][];
-    static int stepn = 0;
+
     int i;
     int j;
     char player = '1';
-    boolean c = true;
     char desk[][];
 
 
-    public PlayScreen(String title, final int level) {
+    public PlayScreen(String title, int opponent, int level) {
         super(title);
         setLayout(null);
 
@@ -67,16 +66,26 @@ public class PlayScreen extends JFrame {
                 }
 
 
-        step = new JLabel("<html><font size=5>ХОД: " + (stepn/2+1) + "</font></html>");
-        step.setSize(272, 64);
-        step.setLocation(504, 16);
+        wstep = new JLabel("<html><font size=5>ХОД: </font></html>");
+        wstep.setSize(272, 64);
+        wstep.setLocation(504, 16);
+        add(wstep);
+
+        step = new JLabel("<html><font size=5>1</font></html>");
+        step.setSize(222, 64);
+        step.setLocation(554, 16);
         add(step);
 
-        if (c) wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=blue>синий</font> игрок</font></html>");
-        else wplayer = new JLabel("<html><font size=5>Сейчас ходит <font color=red>красный</font> игрок</font></html>");
+
+        wplayer = new JLabel("<html><font size=5>Сейчас ходит игрок</font></html>");
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
         add(wplayer);
+
+        cplayer = new JLabel("<html><font size=5 color=blue>1</font></html>");
+        cplayer.setSize(86, 64);
+        cplayer.setLocation(690, 80);
+        add(cplayer);
 
 
         ng = new JButton("<html><font size=5>НОВАЯ ИГРА</font></html>");
@@ -101,7 +110,7 @@ public class PlayScreen extends JFrame {
             }
         });
 
-        gzone.addMouseListener(new DeskClick(cell, desk, level, player, stepn));
+        gzone.addMouseListener(new DeskClick(cell, desk, level, opponent, 0));
     }
 
     public char[][] StartGame (int range)
@@ -122,5 +131,4 @@ public class PlayScreen extends JFrame {
         return temp;
     }
 }
-
 
