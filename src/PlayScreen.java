@@ -3,15 +3,18 @@ import java.awt.*;
 import java.awt.event.*;
 
 import static java.lang.Math.abs;
-import static java.lang.System.exit;
 
 public class PlayScreen extends JFrame {
     JButton ng, ex;
-    JLabel step, wplayer;
+    static JLabel step;
+    JLabel wplayer;
     JPanel field, gzone, cell[][];
-    int stepn = 0, i, j;
+    static int stepn = 0;
+    int i;
+    int j;
+    char player = '1';
     boolean c = true;
-    static char desk[][];
+    char desk[][];
 
 
     public PlayScreen(String title, final int level) {
@@ -64,7 +67,7 @@ public class PlayScreen extends JFrame {
                 }
 
 
-        step = new JLabel("<html><font size=5>ХОД: " + stepn + "</font></html>");
+        step = new JLabel("<html><font size=5>ХОД: " + (stepn/2+1) + "</font></html>");
         step.setSize(272, 64);
         step.setLocation(504, 16);
         add(step);
@@ -98,40 +101,10 @@ public class PlayScreen extends JFrame {
             }
         });
 
-        gzone.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if ((e.getX()-15)%60>0 && (e.getX()-15)%60<60 && ((e.getY()-15)%60>abs(e.getX()-45)%60) && ((e.getY()-15)%60<60-abs(e.getX()-45)%60) && (e.getX()-15)/60<level && (e.getY()-15)/60<level)
-                    for (int i=((e.getY()-15)/60)*6+2; i<((e.getY()-15)/60)*6+7; i++)
-                        cell[i][((e.getX()-15)/60)*6+4].setBackground(Color.blue);
-                else if ((e.getX()-45)%60>0 && (e.getX()-45)%60<60 && ((e.getY()-45)%60>abs(e.getX()-75)%60) && ((e.getY()-75)%60<60-abs(e.getX()-75)%60) && (e.getX()-45)/60<level-1 && (e.getY()-45)/60<level-1)
-                    for (int j=((e.getX()-45)/60) *6+5; j<((e.getX()-45)/60)*6+10; j++)
-                        cell[((e.getY()-45)/60)*6+7][j].setBackground(Color.blue);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
+        gzone.addMouseListener(new DeskClick(cell, desk, level, player, stepn));
     }
 
-    public static char[][] StartGame (int range)
+    public char[][] StartGame (int range)
     {
         char temp[][];
         int i, j;

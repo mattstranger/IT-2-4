@@ -16,11 +16,11 @@ public class OpChoice implements ActionListener {
 
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        if (m[t] != i+1) {
+        if (m[t] != i+2) {
             b[i].setBackground(Color.GRAY);
             if (m[t] != 0)
-                b[m[t]-1].setBackground(Color.LIGHT_GRAY);
-            m[t] = i+1;
+                b[m[t]-2].setBackground(Color.LIGHT_GRAY);
+            m[t] = i+2;
         } else {
             b[i].setBackground(Color.LIGHT_GRAY);
             m[t] = 0;

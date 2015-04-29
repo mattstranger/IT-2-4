@@ -95,12 +95,6 @@ public class FirstScreen extends JFrame {
     }
 
     public int[] PushChoice() {
-        if (cond[0] != 0 && cond[1] != 0){
-            cond[1]++;
-            this.dispose();
-            return cond;
-        }
-
         return cond;
     }
 
