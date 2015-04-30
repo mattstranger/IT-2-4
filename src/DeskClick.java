@@ -55,8 +55,7 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 else
                     for (int j = (y - l) * 6 + 5; j < (y - l) * 6 + 10; j++)
                         c[x * 6 + 7][j].setBackground(Color.blue);
-            }
-            else {
+            } else {
                 if (y < l)
                     for (int j = y * 6 + 2; j < y * 6 + 7; j++)
                         c[x * 6 + 4][j].setBackground(Color.red);
@@ -67,21 +66,21 @@ public class DeskClick implements MouseMotionListener, MouseListener {
 
             s++;
             if (s % 2 == 0) {
-                PlayScreen.cplayer.setText("<html><font size=5 color=blue>1</font></html>");
+                PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
                 p = '1';
             } else {
-                PlayScreen.cplayer.setText("<html><font size=5 color=red>2</font></html>");
+                PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=red>2</font></font></html>");
                 if (o == 3) p = '3';
                 else p = '2';
             }
-            PlayScreen.step.setText("<html><font size=5>" + (s / 2 + 1) + "</font></html>");
-
+            PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
         }
 
 
 
-        for (int k=0; k<l; k++)
-            System.out.println(d[k]);
+
+        //for (int k=0; k<l; k++)
+            //System.out.println(d[k]);
 
     }
 

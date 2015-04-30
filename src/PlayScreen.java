@@ -6,12 +6,10 @@ import static java.lang.Math.abs;
 
 public class PlayScreen extends JFrame {
     JButton ng, ex;
-    static JLabel step, cplayer;
-    JLabel wstep, wplayer;
+    static JLabel step, wplayer;
     JPanel field, gzone, cell[][];
 
-    int i;
-    int j;
+    int i, j, range;
     char player = '1';
     char desk[][];
 
@@ -20,6 +18,7 @@ public class PlayScreen extends JFrame {
         super(title);
         setLayout(null);
 
+        range = level;
         desk = StartGame(level);
 
         field = new JPanel();
@@ -66,26 +65,16 @@ public class PlayScreen extends JFrame {
                 }
 
 
-        wstep = new JLabel("<html><font size=5>ХОД: </font></html>");
-        wstep.setSize(272, 64);
-        wstep.setLocation(504, 16);
-        add(wstep);
-
-        step = new JLabel("<html><font size=5>1</font></html>");
-        step.setSize(222, 64);
-        step.setLocation(554, 16);
+        step = new JLabel("<html><font size=5>ХОД: 1</font></html>");
+        step.setSize(272, 64);
+        step.setLocation(504, 16);
         add(step);
 
 
-        wplayer = new JLabel("<html><font size=5>Сейчас ходит игрок</font></html>");
+        wplayer = new JLabel("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
         add(wplayer);
-
-        cplayer = new JLabel("<html><font size=5 color=blue>1</font></html>");
-        cplayer.setSize(86, 64);
-        cplayer.setLocation(690, 80);
-        add(cplayer);
 
 
         ng = new JButton("<html><font size=5>НОВАЯ ИГРА</font></html>");
@@ -113,6 +102,8 @@ public class PlayScreen extends JFrame {
         gzone.addMouseListener(new DeskClick(cell, desk, level, opponent, 0));
     }
 
+
+
     public char[][] StartGame (int range)
     {
         char temp[][];
@@ -130,5 +121,165 @@ public class PlayScreen extends JFrame {
             temp[i][j] = '0';
         return temp;
     }
+
+
+
+    char VictoryCheck ()
+    {
+        int j;
+        boolean g1 = false, g2 = false;
+
+        for (j=0; j<range; j++)
+        {
+            if (desk[0][j] == '1')
+                g1 = Checker (desk, '1', 0, j, j, range);
+            if (g1)
+                return '1';
+        }
+
+        for (j=0; j<range; j++)
+        {
+            if (desk[j][0] == '2')
+                g2 = Checker (desk, '2', j, 0, j, range);
+            if (g2)
+                return '2';
+        }
+
+        for (int k=0; k<range; k++)
+            System.out.println(desk[k]);
+
+        return '0';
+    }
+
+
+    boolean Checker (char[][] board, char gamer, int x, int y, int from, int range)
+    {
+        int j, k;
+        boolean b = false;
+
+        if (gamer == '1')
+        {
+            if (board[x][y] == '0'  ||  board[x][y] == '2')
+                return false;
+            else
+            {
+
+                if (x == range-1)
+                    return true;
+                else
+
+                if (y < range)
+                    if (y != 0)
+                        if (y != range-1)
+                            b = Checker (board, gamer, x+1, y, y, range) ||
+                                    Checker (board, gamer, x, y+range-1, y, range) ||
+                                    Checker (board, gamer, x, y+range, y, range);
+                        else
+                            b = Checker (board, gamer, x+1, y, y, range) ||
+                                    Checker (board, gamer, x, y+range-1, y, range);
+                    else
+                        b = Checker (board, gamer, x+1, y, y, range) ||
+                                Checker (board, gamer, x, y+range, y, range);
+
+                else
+
+                if (y != range)
+                    if (y != 2*(range-1))
+                        if (from < range)
+                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    Checker (board, gamer, x+1, y-range, y, range) ||
+                                    Checker (board, gamer, x, y-1, y, range) ||
+                                    Checker (board, gamer, x, y+1, y, range);
+                        else
+                        if (from == y+1)
+                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    Checker (board, gamer, x+1, y-range, y, range) ||
+                                    Checker (board, gamer, x, y-1, y, range);
+                        else
+                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    Checker (board, gamer, x+1, y-range, y, range) ||
+                                    Checker (board, gamer, x, y+1, y, range);
+                    else
+                    {
+                        if (from < range)
+                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    Checker (board, gamer, x+1, y-range, y, range) ||
+                                    Checker (board, gamer, x, y-1, y, range);
+                        else
+                        if (from == y-1)
+                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    Checker (board, gamer, x+1, y-range, y, range);
+                    }
+                else
+                if (from < range)
+                    b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                            Checker (board, gamer, x+1, y-range, y, range) ||
+                            Checker (board, gamer, x, y+1, y, range);
+                else
+                if (from == y+1)
+                    b = Checker (board, gamer, x+1, y-range+1, y, range) ||
+                            Checker (board, gamer, x+1, y-range, y, range);
+            }
+        }
+
+        else
+        {
+            if (board[x][y] == '0'  ||  board[x][y] == '1')
+                return false;
+            else
+            {
+                if (y == range-1)
+                    return true;
+                else
+                if (y < range)
+                    if (x != 0)
+                        if (x != range-1)
+                            b = Checker (board, gamer, x, y+1, y, range) ||
+                                    Checker (board, gamer, x-1, y+range, x, range) ||
+                                    Checker (board, gamer, x, y+range, x, range);
+                        else
+                            b = Checker (board, gamer, x, y+1, x, range) ||
+                                    Checker (board, gamer, x-1, y+range, x, range);
+                    else
+                        b = Checker (board, gamer, x, y+1, x, range) ||
+                                Checker (board, gamer, x, y+range, x, range);
+
+                else
+                if (x != 0)
+                    if (x != range-2)
+                    {
+                        if (from == x-1)
+                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    Checker (board, gamer, x, y-range+1, x, range) ||
+                                    Checker (board, gamer, x+1, y, x, range);
+                        else
+                        if (from == x+1)
+                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    Checker (board, gamer, x, y-range+1, x, range) ||
+                                    Checker (board, gamer, x-1, y, x, range);
+                    }
+                    else
+                    {
+                        if (from == x-1)
+                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    Checker (board, gamer, x, y-range+1, x, range);
+                        else
+                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    Checker (board, gamer, x, y-range+1, x, range) ||
+                                    Checker (board, gamer, x-1, y, x, range);
+                    }
+                else
+                if (from == x+1)
+                    b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                            Checker (board, gamer, x, y-range+1, x, range);
+                else
+                    b = Checker (board, gamer, x+1, y-range+1, x, range) ||
+                            Checker (board, gamer, x, y-range+1, x, range) ||
+                            Checker (board, gamer, x+1, y, x, range);
+            }
+        }
+        return b;
+    }
+
 }
 
