@@ -10,13 +10,15 @@ public class PlayScreen extends JFrame {
     JPanel field, gzone, cell[][];
 
     int i, j, range;
-    char player = '1';
     char desk[][];
 
 
-    public PlayScreen(String title, int opponent, int level) {
+    public PlayScreen(String title, int opponent, int level) throws InterruptedException {
         super(title);
         setLayout(null);
+        char o = (char) (opponent+48);
+//System.out.println(o);
+        //Thread.sleep(10000);
 
         range = level;
         desk = StartGame(level);
@@ -124,10 +126,10 @@ public class PlayScreen extends JFrame {
 
 
 
-    char VictoryCheck ()
-    {
+    char VictoryCheck () {
         int j;
         boolean g1 = false, g2 = false;
+
 
         for (j=0; j<range; j++)
         {
@@ -145,8 +147,9 @@ public class PlayScreen extends JFrame {
                 return '2';
         }
 
-        for (int k=0; k<range; k++)
-            System.out.println(desk[k]);
+
+       /* for (int k=0; k<range; k++)
+            System.out.println(desk[k]);*/
 
         return '0';
     }
@@ -159,7 +162,7 @@ public class PlayScreen extends JFrame {
 
         if (gamer == '1')
         {
-            if (board[x][y] == '0'  ||  board[x][y] == '2')
+            if (board[x][y] == '0'  ||  board[x][y] == '2' ||  board[x][y] == '3')
                 return false;
             else
             {
