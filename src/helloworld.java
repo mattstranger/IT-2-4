@@ -4,6 +4,7 @@ import static java.lang.Thread.sleep;
 
 public class helloworld {
     static int start[]= new int[2];
+    static boolean newg = false;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -28,11 +29,17 @@ public class helloworld {
             p.setSize(800, 480);
             p.setResizable(false);
             p.setLocationRelativeTo(null);
-            while (p.VictoryCheck() == '0');
-            if (p.VictoryCheck() == '1')
-                JOptionPane.showMessageDialog(null, "Победил синий игрок");
-            else JOptionPane.showMessageDialog(null, "Победил красный игрок");
+            while (p.VictoryCheck() == '0' && !newg);
+            if (!newg) {
+                if (p.VictoryCheck() == '1')
+                    JOptionPane.showMessageDialog(null, "<html>Победил <font color=blue>синий</font> игрок</html>", "Игра окончена", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, "<html>Победил <font color=red>красный</font> игрок</html>", "Игра окончена", JOptionPane.INFORMATION_MESSAGE);
+                if (JOptionPane.showConfirmDialog(null, "Еще партейку?", "НОВАЯ ИГРА", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION)
+                    System.exit(0);
+            }
             p.dispose();
+            newg = false;
 
             Thread.sleep(100);
 

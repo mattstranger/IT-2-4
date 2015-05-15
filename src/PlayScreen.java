@@ -16,8 +16,8 @@ public class PlayScreen extends JFrame {
     public PlayScreen(String title, int opponent, int level) throws InterruptedException {
         super(title);
         setLayout(null);
-        char o = (char) (opponent+48);
-//System.out.println(o);
+
+        //System.out.println(o);
         //Thread.sleep(10000);
 
         range = level;
@@ -85,8 +85,10 @@ public class PlayScreen extends JFrame {
         add(ng);
         ng.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите начать новую игру?") == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите начать новую игру?", "НОВАЯ ИГРА", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     setVisible(false);
+                    helloworld.newg = true;
+                }
             }
         });
 
@@ -96,7 +98,7 @@ public class PlayScreen extends JFrame {
         add(ex);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?") == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?", "ВЫХОД", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     System.exit(0);
             }
         });
@@ -162,7 +164,7 @@ public class PlayScreen extends JFrame {
 
         if (gamer == '1')
         {
-            if (board[x][y] == '0'  ||  board[x][y] == '2' ||  board[x][y] == '3')
+            if (board[x][y] != '1')
                 return false;
             else
             {

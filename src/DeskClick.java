@@ -22,15 +22,14 @@ public class DeskClick implements MouseMotionListener, MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        //if (o == 3 || (o == 2 && p =='1')) {
-            if      ((e.getX() - 15) % 60 > 0
-                    && (e.getX() - 15) % 60 < 60
-                    && (e.getY() - 15) % 60 > abs(e.getX() - 45) % 60
-                    && (e.getY() - 15) % 60 < 60 - abs(e.getX() - 45) % 60
-                    && (e.getX() - 15) / 60 < l && (e.getY() - 15) / 60 < l) {
-                x1 = (e.getY() - 15) / 60;
-                y1 = (e.getX() - 15) / 60;
-            } else if ((e.getX() - 45) % 60 > 0
+        if    ((e.getX() - 15) % 60 > 0
+                && (e.getX() - 15) % 60 < 60
+                && (e.getY() - 15) % 60 > abs(e.getX() - 45) % 60
+                && (e.getY() - 15) % 60 < 60 - abs(e.getX() - 45) % 60
+                && (e.getX() - 15) / 60 < l && (e.getY() - 15) / 60 < l) {
+            x1 = (e.getY() - 15) / 60;
+            y1 = (e.getX() - 15) / 60;
+        } else if ((e.getX() - 45) % 60 > 0
                     && (e.getX() - 45) % 60 < 60
                     && (e.getY() - 45) % 60 > abs(e.getX() - 75) % 60
                     && (e.getY() - 45) % 60 < 60 - abs(e.getX() - 75) % 60
@@ -40,10 +39,8 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 y1 = (e.getX() - 45) / 60 + l;
             }
 
-       // }
         //System.out.println(x);
         //System.out.println(y);
-
 
 
         if (d[x1][y1] == '0') {
@@ -80,16 +77,13 @@ public class DeskClick implements MouseMotionListener, MouseListener {
             PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
             if (o == 2  &&  p == '2')
             {
-                /*try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }*/
-                s++;
-                System.out.println(x2);
+
+                /*System.out.println(x2);
                 System.out.println(y2);
                 for (int k=0; k<l; k++)
-                    System.out.println(d[k]);
+                    System.out.println(d[k]);*/
+
+                s++;
                 if (y2 < l)
                     for (int j = y2 * 6 + 2; j < y2 * 6 + 7; j++)
                         c[x2 * 6 + 4][j].setBackground(Color.red);
@@ -101,13 +95,6 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
             }
         }
-
-
-
-
-        //for (int k=0; k<l; k++)
-            //System.out.println(d[k]);
-
     }
 
 
