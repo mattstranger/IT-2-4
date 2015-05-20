@@ -8,7 +8,7 @@ import static java.lang.Math.abs;
 
 public class DeskClick implements MouseMotionListener, MouseListener {
     JPanel c[][];
-    int l, x1, y1, x2 = -1, y2 = -1, s, o;
+    int l, x1=-1, y1=-1, x2 = -1, y2 = -1, s, o;
     char d[][], p = '1';
 
 
@@ -43,47 +43,49 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 y1 = (e.getX() - 45) / 60 + l;
             }
 
-         if (d[x1][y1] == '0') {                            //проверка на свободность ячейки
-            d[x1][y1] = p;
-            if (p == '1') {
-                if (y1 < l)
-                    for (int i = x1 * 6 + 2; i < x1 * 6 + 7; i++)
-                        c[i][y1 * 6 + 4].setBackground(Color.blue);
-                else
-                    for (int j = (y1 - l) * 6 + 5; j < (y1 - l) * 6 + 10; j++)
-                        c[x1 * 6 + 7][j].setBackground(Color.blue);
-                if (o == 2)                                 //вызов функции хода ИИ при выборе режима "компьютер"
-                    AIMove();
-            } else {
-                if (y1 < l)
-                    for (int j = y1 * 6 + 2; j < y1 * 6 + 7; j++)
-                        c[x1 * 6 + 4][j].setBackground(Color.red);
-                else
-                    for (int i = x1 * 6 + 5; i < x1 * 6 + 10; i++)
-                        c[i][(y1 - l) * 6 + 7].setBackground(Color.red);
-            }
+        if (x1 >= 0  && y1>=0) {
+            if (d[x1][y1] == '0') {                            //проверка на свободность ячейки
+                d[x1][y1] = p;
+                if (p == '1') {
+                    if (y1 < l)
+                        for (int i = x1 * 6 + 2; i < x1 * 6 + 7; i++)
+                            c[i][y1 * 6 + 4].setBackground(Color.blue);
+                    else
+                        for (int j = (y1 - l) * 6 + 5; j < (y1 - l) * 6 + 10; j++)
+                            c[x1 * 6 + 7][j].setBackground(Color.blue);
+                    if (o == 2)                                 //вызов функции хода ИИ при выборе режима "компьютер"
+                        AIMove();
+                } else {
+                    if (y1 < l)
+                        for (int j = y1 * 6 + 2; j < y1 * 6 + 7; j++)
+                            c[x1 * 6 + 4][j].setBackground(Color.red);
+                    else
+                        for (int i = x1 * 6 + 5; i < x1 * 6 + 10; i++)
+                            c[i][(y1 - l) * 6 + 7].setBackground(Color.red);
+                }
 
-            s++;                                            //отображение чей сейчас ход и его номера через счетчик
-            if (s % 2 == 0) {
-                PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
-                p = '1';
-            } else {
-                PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=red>2</font></font></html>");
-                p = '2';
-            }
-            PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
-            if (o == 2  &&  p == '2')                       //отображение хода ИИ на поле и обновление счетчика
-            {
-                s++;
-                if (y2 < l)
-                    for (int j = y2 * 6 + 2; j < y2 * 6 + 7; j++)
-                        c[x2 * 6 + 4][j].setBackground(Color.red);
-                else
-                    for (int i = x2 * 6 + 5; i < x2 * 6 + 10; i++)
-                        c[i][(y2 - l) * 6 + 7].setBackground(Color.red);
-                PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
-                p = '1';
+                s++;                                            //отображение чей сейчас ход и его номера через счетчик
+                if (s % 2 == 0) {
+                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
+                    p = '1';
+                } else {
+                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=red>2</font></font></html>");
+                    p = '2';
+                }
                 PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
+                if (o == 2 && p == '2')                       //отображение хода ИИ на поле и обновление счетчика
+                {
+                    s++;
+                    if (y2 < l)
+                        for (int j = y2 * 6 + 2; j < y2 * 6 + 7; j++)
+                            c[x2 * 6 + 4][j].setBackground(Color.red);
+                    else
+                        for (int i = x2 * 6 + 5; i < x2 * 6 + 10; i++)
+                            c[i][(y2 - l) * 6 + 7].setBackground(Color.red);
+                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
+                    p = '1';
+                    PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
+                }
             }
         }
     }
