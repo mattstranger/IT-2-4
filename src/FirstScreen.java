@@ -9,6 +9,7 @@ public class FirstScreen extends JFrame {
     JButton op[] = new JButton[2];
     JButton s[] = new JButton[6];
 
+
     public FirstScreen (String title) {
         super(title);
         setLayout(null);
@@ -94,8 +95,12 @@ public class FirstScreen extends JFrame {
         });
     }
 
+
+    //Функция возврата выбраных пользователем режима игры и размера поля
+    //--------------------
     public int[] PushChoice() {
         return cond;
     }
+    //--------------------
 
 }

@@ -21,8 +21,12 @@ public class DeskClick implements MouseMotionListener, MouseListener {
         o = opponent;
     }
 
+
+
+    //Функция обработчика нажатия мыши по игровому полю, осуществляющая ход игрока при благоприятных условиях
+    //--------------------
     public void mousePressed(MouseEvent e) {
-        if    ((e.getX() - 15) % 60 > 0
+        if    ((e.getX() - 15) % 60 > 0                     //проверка координат по нажатию мыши
                 && (e.getX() - 15) % 60 < 60
                 && (e.getY() - 15) % 60 > abs(e.getX() - 45) % 60
                 && (e.getY() - 15) % 60 < 60 - abs(e.getX() - 45) % 60
@@ -39,11 +43,7 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 y1 = (e.getX() - 45) / 60 + l;
             }
 
-        //System.out.println(x);
-        //System.out.println(y);
-
-
-        if (d[x1][y1] == '0') {
+         if (d[x1][y1] == '0') {                            //проверка на свободность ячейки
             d[x1][y1] = p;
             if (p == '1') {
                 if (y1 < l)
@@ -52,11 +52,8 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 else
                     for (int j = (y1 - l) * 6 + 5; j < (y1 - l) * 6 + 10; j++)
                         c[x1 * 6 + 7][j].setBackground(Color.blue);
-                if (o == 2)
-                {
+                if (o == 2)                                 //вызов функции хода ИИ при выборе режима "компьютер"
                     AIMove();
-
-                }
             } else {
                 if (y1 < l)
                     for (int j = y1 * 6 + 2; j < y1 * 6 + 7; j++)
@@ -66,7 +63,7 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                         c[i][(y1 - l) * 6 + 7].setBackground(Color.red);
             }
 
-            s++;
+            s++;                                            //отображение чей сейчас ход и его номера через счетчик
             if (s % 2 == 0) {
                 PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
                 p = '1';
@@ -75,14 +72,8 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 p = '2';
             }
             PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
-            if (o == 2  &&  p == '2')
+            if (o == 2  &&  p == '2')                       //отображение хода ИИ на поле и обновление счетчика
             {
-
-                /*System.out.println(x2);
-                System.out.println(y2);
-                for (int k=0; k<l; k++)
-                    System.out.println(d[k]);*/
-
                 s++;
                 if (y2 < l)
                     for (int j = y2 * 6 + 2; j < y2 * 6 + 7; j++)
@@ -96,8 +87,12 @@ public class DeskClick implements MouseMotionListener, MouseListener {
             }
         }
     }
+    //--------------------
 
 
+
+    //Функция хода ИИ
+    //--------------------
     char[][] AIMove ()
     {
         int i, j;
@@ -247,6 +242,8 @@ public class DeskClick implements MouseMotionListener, MouseListener {
 
         return d;
     }
+    //--------------------
+
 
 
     @Override
@@ -268,7 +265,6 @@ public class DeskClick implements MouseMotionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
 
     @Override
     public void mouseDragged(MouseEvent e) {

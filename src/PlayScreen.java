@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static java.lang.Math.abs;
 
 public class PlayScreen extends JFrame {
     JButton ng, ex;
@@ -16,9 +15,6 @@ public class PlayScreen extends JFrame {
     public PlayScreen(String title, int opponent, int level) throws InterruptedException {
         super(title);
         setLayout(null);
-
-        //System.out.println(o);
-        //Thread.sleep(10000);
 
         range = level;
         desk = StartGame(level);
@@ -87,7 +83,7 @@ public class PlayScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите начать новую игру?", "НОВАЯ ИГРА", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     setVisible(false);
-                    helloworld.newg = true;
+                    Main.newg = true;
                 }
             }
         });
@@ -108,6 +104,8 @@ public class PlayScreen extends JFrame {
 
 
 
+    //Функция первичной инициализации матрицы, хранящей состояния ячееек игрового поля
+    //--------------------
     public char[][] StartGame (int range)
     {
         char temp[][];
@@ -125,9 +123,12 @@ public class PlayScreen extends JFrame {
             temp[i][j] = '0';
         return temp;
     }
+    //--------------------
 
 
 
+    //Функция проверки на победу 1 и 2 игроков поочередно
+    //--------------------
     char VictoryCheck () {
         int j;
         boolean g1 = false, g2 = false;
@@ -149,14 +150,14 @@ public class PlayScreen extends JFrame {
                 return '2';
         }
 
-
-       /* for (int k=0; k<range; k++)
-            System.out.println(desk[k]);*/
-
         return '0';
     }
+    //--------------------
 
 
+
+    //Функция проверки соединения сторон ломаной (для 1 игрока - верхней и нижней, для 2 - левой и правой)
+    //--------------------
     boolean Checker (char[][] board, char gamer, int x, int y, int from, int range)
     {
         int j, k;
@@ -285,6 +286,7 @@ public class PlayScreen extends JFrame {
         }
         return b;
     }
+    //--------------------
 
 }
 

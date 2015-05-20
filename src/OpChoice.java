@@ -6,6 +6,7 @@ public class OpChoice implements ActionListener {
     JButton b[];
     int m[], i, t;
 
+
     public OpChoice(JButton button[], int condition[], int num, int type)
     {
         b = button;
@@ -14,6 +15,10 @@ public class OpChoice implements ActionListener {
         t = type;
     }
 
+
+
+    //Функция обработчика событий для индикации нажатых пользователем кнопок на экране стартового меню
+    //--------------------
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (m[t] != i+2) {
@@ -26,6 +31,8 @@ public class OpChoice implements ActionListener {
             m[t] = 0;
         }
     }
+    //--------------------
+
 }
 
 
