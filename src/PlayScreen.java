@@ -165,6 +165,7 @@ public class PlayScreen extends JFrame {
 
         if (gamer == '1')
         {
+            System.out.print("board["+x+"]["+y+"]\n");
             if (board[x][y] != '1')
                 return false;
             else
@@ -217,7 +218,7 @@ public class PlayScreen extends JFrame {
                                     Checker (board, gamer, x+1, y-range, y, range);
                     }
                 else
-                if (from < range)
+                if (from < range && from != range-1)
                     b = Checker (board, gamer, x+1, y-range+1, y, range) ||
                             Checker (board, gamer, x+1, y-range, y, range) ||
                             Checker (board, gamer, x, y+1, y, range);
