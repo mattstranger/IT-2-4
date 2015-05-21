@@ -165,7 +165,6 @@ public class PlayScreen extends JFrame {
 
         if (gamer == '1')
         {
-            System.out.print("board["+x+"]["+y+"]\n");
             if (board[x][y] != '1')
                 return false;
             else
