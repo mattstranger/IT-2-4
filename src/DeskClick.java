@@ -53,7 +53,8 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                     else
                         for (int j = (y1 - l) * 6 + 5; j < (y1 - l) * 6 + 10; j++)
                             c[x1 * 6 + 7][j].setBackground(Color.blue);
-                    if (o == 2)                                 //вызов функции хода ИИ при выборе режима "компьютер"
+
+                    if (o == 2)                               //вызов функции хода ИИ при выборе режима "компьютер"
                         AIMove();
                 } else {
                     if (y1 < l)
@@ -66,13 +67,13 @@ public class DeskClick implements MouseMotionListener, MouseListener {
 
                 s++;                                            //отображение чей сейчас ход и его номера через счетчик
                 if (s % 2 == 0) {
-                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
+                    PlayScreen.wplayer.setText(BridgeIt.message[4]+BridgeIt.playa[0]+BridgeIt.message[3]);
                     p = '1';
                 } else {
-                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=red>2</font></font></html>");
+                    PlayScreen.wplayer.setText(BridgeIt.message[5]+BridgeIt.playa[1]+BridgeIt.message[3]);
                     p = '2';
                 }
-                PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
+                PlayScreen.step.setText(BridgeIt.message[2] + (s / 2 + 1) + BridgeIt.message[3]);
                 if (o == 2 && p == '2')                       //отображение хода ИИ на поле и обновление счетчика
                 {
                     s++;
@@ -82,9 +83,9 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                     else
                         for (int i = x2 * 6 + 5; i < x2 * 6 + 10; i++)
                             c[i][(y2 - l) * 6 + 7].setBackground(Color.red);
-                    PlayScreen.wplayer.setText("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
+                    PlayScreen.wplayer.setText(BridgeIt.message[4]+BridgeIt.playa[0]+BridgeIt.message[3]);
                     p = '1';
-                    PlayScreen.step.setText("<html><font size=5>ХОД: " + (s / 2 + 1) + "</font></html>");
+                    PlayScreen.step.setText(BridgeIt.message[2] + (s / 2 + 1) + BridgeIt.message[3]);
                 }
             }
         }
@@ -99,56 +100,207 @@ public class DeskClick implements MouseMotionListener, MouseListener {
     {
         int i, j;
         boolean b = false;
+        char[][] t;
 
-        if (x2 == -1  &&  y2 == -1)                 // условия для первого хода бота
+        t = new char[l][];
+        for (i=0; i<l-1; i++)
         {
-            if (x1 > l-1-x1)
-                x2 = 0;
-            else
-                x2 = l-1;
-            if (y1 < l)
-                y2 = y1;
-            else
-                y2 = y1-l;
-            d[x2][y2] = '2';
-            return d;
+            t[i] = new char [2*l-1];
+            for (j=0; j<2*l-1; j++)
+                t[i][j] = d[i][j];
         }
+        t[i] = new char [l];
+        for (j=0; j<l; j++)
+            t[i][j] = d[i][j];
 
 
-        if (y1 < l)                            // условия рассматриваемые лишь если игрок связывал
-        {                                          // точки вертикально
-            for (i=0; i<l; i++)
-                if (d[i][y1] == '2')
-                {
+        for (i=0; i<l-1; i++) {
+            for (j = 0; j < 2*l-1; j++)
+                if (t[i][j] == '0') {
+                    t[i][j] = '1';
+                    if (PlayScreen.victoryCheck(t, l, 1) == '1') {
+                        d[i][j] = '2';
+                        x2 = i;
+                        y2 = j;
+                        return d;
+                    } else t[i][j] = '0';
+                }
+        }
+        for (j = 0; j < l; j++)
+            if (t[i][j] == '0') {
+                t[i][j] = '1';
+                if (PlayScreen.victoryCheck(t, l, 1) == '1') {
+                    d[i][j] = '2';
+                    x2 = i;
+                    y2 = j;
+                    return d;
+                } else t[i][j] = '0';
+            }
+
+
+        for (i=0; i<l-1; i++) {
+            for (j = 0; j < 2*l-1; j++)
+                if (t[i][j] == '0') {
+                    t[i][j] = '2';
+                    if (PlayScreen.victoryCheck(t, l, 2) == '2') {
+                        d[i][j] = '2';
+                        x2 = i;
+                        y2 = j;
+                        return d;
+                    } else t[i][j] = '0';
+                }
+        }
+        for (j = 0; j < l; j++)
+            if (t[i][j] == '0') {
+                t[i][j] = '2';
+                if (PlayScreen.victoryCheck(t, l, 2) == '2') {
+                    d[i][j] = '2';
+                    x2 = i;
+                    y2 = j;
+                    return d;
+                } else t[i][j] = '0';
+            }
+
+
+        if (y1<l) {
+            for (i = 0; i < l; i++)
+                if (d[i][y1] == '2') {
                     b = true;
                     break;
                 }
 
-            if (!b)
-            {
-                if (d[x2][y1] == '0')
-                {
-                    d[x2][y1] = '2';
+            if (!b) {
+                if (x1 != l-1 && d[x1 + 1][y1] == '0') {
+                    d[x1 + 1][y1] = '2';
+                    x2 = x1 + 1;
                     y2 = y1;
+                    return d;
+                } else if (d[x1 - 1][y1] == '0'){
+                    d[x1 - 1][y1] = '2';
+                    x2 = x1 - 1;
+                    y2 = y1;
+                    return d;
                 }
-                else
-                {
-                    if (x2 != l-1 && d[x2+1][y1] == '0')
-                    {
-                        x2 = x2+1;
-                        y2 = y1;
-                    }
-                    else if (x2 != 0 && d[x2-1][y1] == '0')
-                    {
-                        x2 = x2-1;
-                        y2 = y1;
-                    }
-                    d[x2][y1] = '2';
-                }
+            }
 
+
+            if (x1>0 && y1>0 && d[x1][y1-1]=='2' && d[x1-1][y1]=='2' && d[x1-1][y1+l-1]=='0')
+            {
+                d[x1-1][y1+l-1]='2';
+                x2 = x1-1;
+                y2 = y1+l-1;
+                return d;
+            }
+
+            if (x1<l-1 && y1>0 && d[x1][y1-1]=='2' && d[x1+1][y1]=='2' && d[x1][y1+l-1]=='0')
+            {
+                d[x1][y1+l-1]='2';
+                x2 = x1;
+                y2 = y1+l-1;
+                return d;
+            }
+            if (x1>0 && y1<l-1 && d[x1][y1+1]=='2' && d[x1-1][y1]=='2' && d[x1-1][y1+l]=='0')
+            {
+                d[x1-1][y1+l]='2';
+                x2 = x1-1;
+                y2 = y1+l;
+                return d;
+            }
+
+            if (x1<l-1 && y1<l-1 && d[x1][y1+1]=='2' && d[x1+1][y1]=='2' && d[x1][y1+l]=='0')
+            {
+                d[x1][y1+l]='2';
+                x2 = x1;
+                y2 = y1+l;
+                return d;
+            }
+
+
+            if (x1>0 && y1>0 && d[x1-1][y1-1]=='1' && d[x1-1][y1+l-1]=='0')
+            {
+                d[x1-1][y1+l-1]='2';
+                x2 = x1-1;
+                y2 = y1+l-1;
+                return d;
+            }
+
+            if (x1<l-1 && y1>0 && d[x1+1][y1-1]=='1' && d[x1][y1+l-1]=='0')
+            {
+                d[x1][y1+l-1]='2';
+                x2 = x1;
+                y2 = y1+l-1;
+                return d;
+            }
+            if (x1>0 && y1<l-1 && d[x1-1][y1+1]=='1'  && d[x1-1][y1+l]=='0')
+            {
+                d[x1-1][y1+l]='2';
+                x2 = x1-1;
+                y2 = y1+l;
+                return d;
+            }
+
+            if (x1<l-1 && y1<l-1 && d[x1+1][y1+1]=='1' && d[x1][y1+l]=='0')
+            {
+                d[x1][y1+l]='2';
+                x2 = x1;
+                y2 = y1+l;
+                return d;
+            }
+        } else {
+            if(d[x1][y1-l] == '2' && d[x1][y1-l+1] == '0') {
+                d[x1][y1 - l + 1] = '2';
+                x2 = x1;
+                y2 = y1-l+1;
+                return d;
+            }
+            if(d[x1][y1-l] == '0' && d[x1][y1-l+1] == '2') {
+                d[x1][y1-l] = '2';
+                x2 = x1;
+                y2 = y1-l ;
+                return d;
+            }
+            if(d[x1+1][y1-l] == '2' && d[x1+1][y1-l+1] == '0') {
+                d[x1+1][y1-l+1] = '2';
+                x2 = x1+1;
+                y2 = y1-l+1;
+                return d;
+            }
+            if(d[x1+1][y1-l] == '0' && d[x1+1][y1-l+1] == '2') {
+                d[x1+1][y1-l] = '2';
+                x2 = x1+1;
+                y2 = y1-l;
+                return d;
+            }
+
+            if(d[x1][y1-l] == '0') {
+                d[x1][y1-l] = '2';
+                x2 = x1;
+                y2 = y1-l;
+                return d;
+            }
+            if(d[x1][y1-l+1] == '0') {
+                d[x1][y1-l+1] = '2';
+                x2 = x1;
+                y2 = y1-l+1;
+                return d;
+            }
+            if(d[x1+1][y1-l] == '0') {
+                d[x1+1][y1-l] = '2';
+                x2 = x1+1;
+                y2 = y1-l;
+                return d;
+            }
+            if(d[x1+1][y1-l+1] == '0') {
+                d[x1+1][y1-l+1] = '2';
+                x2 = x1+1;
+                y2 = y1-l+1;
                 return d;
             }
         }
+
+
+
+
 
 
         for (i=0; i<l; i++)                    // проверка на наличие разорванной на один отрезок прямой
@@ -182,7 +334,7 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                     }
             }
 
-        if (y2 != 0  &&  y2 != l-1)            // проверка на возможность продолжения прямой влево и вправо
+        if (y2 != 0  &&  y2 != l-1 && y2<l)            // проверка на возможность продолжения прямой влево и вправо
         {
             if (l-y2 > y2+1  &&  d[x2][y2-1] == '0')
             {
@@ -233,16 +385,25 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 }
         }
 
+
         for (i=0; i<l; i++)
-            if (d[i][y1] == '0')
-            {
-                x2 = i;
-                y2 = y1;
-                d[x2][y2] = '2';
-                return d;
-            }
+            for (j = 0; j<l; j++)
+                if (d[i][j] == '1')
+                    if (i>0 && d[i-1][j] == '0') {
+                        d[i-1][j] = '2';
+                        x2 = i - 1;
+                        y2 = j;
+                        return d;
+                    } else if (i<l-1 && d[i+1][j] == '0') {
+                        d[i+1][j] = '2';
+                        x2 = i+1;
+                        y2 = j;
+                        return d;
+                    }
+
 
         return d;
+
     }
     //--------------------
 

@@ -89,7 +89,8 @@ public class FirstScreen extends JFrame {
         add(ex);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?", "ВЫХОД", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(null, BridgeIt.message[1], BridgeIt.title[3],
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     System.exit(0);
             }
         });
@@ -98,7 +99,7 @@ public class FirstScreen extends JFrame {
 
     //Функция возврата выбраных пользователем режима игры и размера поля
     //--------------------
-    public int[] PushChoice() {
+    public int[] pushChoice() {
         return cond;
     }
     //--------------------

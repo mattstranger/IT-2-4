@@ -17,7 +17,7 @@ public class PlayScreen extends JFrame {
         setLayout(null);
 
         range = level;
-        desk = StartGame(level);
+        desk = startGame(level);
 
         field = new JPanel();
         field.setSize(480, 450);
@@ -63,13 +63,13 @@ public class PlayScreen extends JFrame {
                 }
 
 
-        step = new JLabel("<html><font size=5>ХОД: 1</font></html>");
+        step = new JLabel(BridgeIt.message[2]+'1'+BridgeIt.message[3]);
         step.setSize(272, 64);
         step.setLocation(504, 16);
         add(step);
 
 
-        wplayer = new JLabel("<html><font size=5>Сейчас ходит игрок <font size=6 color=blue>1</font></font></html>");
+        wplayer = new JLabel(BridgeIt.message[4]+BridgeIt.playa[0]+BridgeIt.message[3]);
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
         add(wplayer);
@@ -81,9 +81,10 @@ public class PlayScreen extends JFrame {
         add(ng);
         ng.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите начать новую игру?", "НОВАЯ ИГРА", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, BridgeIt.message[0], BridgeIt.title[2],
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     setVisible(false);
-                    Main.newg = true;
+                    BridgeIt.newg = true;
                 }
             }
         });
@@ -94,7 +95,8 @@ public class PlayScreen extends JFrame {
         add(ex);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите выйти?", "ВЫХОД", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(null, BridgeIt.message[1], BridgeIt.title[3],
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     System.exit(0);
             }
         });
@@ -106,7 +108,7 @@ public class PlayScreen extends JFrame {
 
     //Функция первичной инициализации матрицы, хранящей состояния ячееек игрового поля
     //--------------------
-    public char[][] StartGame (int range)
+    public char[][] startGame (int range)
     {
         char temp[][];
         int i, j;
@@ -129,23 +131,25 @@ public class PlayScreen extends JFrame {
 
     //Функция проверки на победу 1 и 2 игроков поочередно
     //--------------------
-    char VictoryCheck () {
+    public static char victoryCheck (char[][] board, int range, int mode) {
         int j;
         boolean g1 = false, g2 = false;
 
 
+        if (mode == 1 || mode == 0)
         for (j=0; j<range; j++)
         {
-            if (desk[0][j] == '1')
-                g1 = Checker (desk, '1', 0, j, j, range);
+            if (board[0][j] == '1')
+                g1 = checker (board, '1', 0, j, j, range);
             if (g1)
                 return '1';
         }
 
+        if (mode == 2 || mode == 0)
         for (j=0; j<range; j++)
         {
-            if (desk[j][0] == '2')
-                g2 = Checker (desk, '2', j, 0, j, range);
+            if (board[j][0] == '2')
+                g2 = checker (board, '2', j, 0, j, range);
             if (g2)
                 return '2';
         }
@@ -158,7 +162,7 @@ public class PlayScreen extends JFrame {
 
     //Функция проверки соединения сторон ломаной (для 1 игрока - верхней и нижней, для 2 - левой и правой)
     //--------------------
-    boolean Checker (char[][] board, char gamer, int x, int y, int from, int range)
+    public static boolean checker (char[][] board, char gamer, int x, int y, int from, int range)
     {
         int j, k;
         boolean b = false;
@@ -177,54 +181,56 @@ public class PlayScreen extends JFrame {
                 if (y < range)
                     if (y != 0)
                         if (y != range-1)
-                            b = Checker (board, gamer, x+1, y, y, range) ||
-                                    Checker (board, gamer, x, y+range-1, y, range) ||
-                                    Checker (board, gamer, x, y+range, y, range);
+                            b = checker (board, gamer, x+1, y, y, range) ||
+                                    checker (board, gamer, x, y+range-1, y, range) ||
+                                    checker (board, gamer, x, y+range, y, range);
                         else
-                            b = Checker (board, gamer, x+1, y, y, range) ||
-                                    Checker (board, gamer, x, y+range-1, y, range);
+                            b = checker (board, gamer, x+1, y, y, range) ||
+                                    checker (board, gamer, x, y+range-1, y, range);
                     else
-                        b = Checker (board, gamer, x+1, y, y, range) ||
-                                Checker (board, gamer, x, y+range, y, range);
+                        b = checker (board, gamer, x+1, y, y, range) ||
+                                checker (board, gamer, x, y+range, y, range);
 
                 else
 
                 if (y != range)
                     if (y != 2*(range-1))
                         if (from < range)
-                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    Checker (board, gamer, x+1, y-range, y, range) ||
-                                    Checker (board, gamer, x, y-1, y, range) ||
-                                    Checker (board, gamer, x, y+1, y, range);
+                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    checker (board, gamer, x+1, y-range, y, range) ||
+                                    checker (board, gamer, x, y-1, y, range) ||
+                                    checker (board, gamer, x, y+1, y, range);
                         else
                         if (from == y+1)
-                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    Checker (board, gamer, x+1, y-range, y, range) ||
-                                    Checker (board, gamer, x, y-1, y, range);
+                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    checker (board, gamer, x+1, y-range, y, range) ||
+                                    checker (board, gamer, x, y-1, y, range);
                         else
-                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    Checker (board, gamer, x+1, y-range, y, range) ||
-                                    Checker (board, gamer, x, y+1, y, range);
+                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    checker (board, gamer, x+1, y-range, y, range) ||
+                                    checker (board, gamer, x, y+1, y, range);
                     else
                     {
                         if (from < range)
-                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    Checker (board, gamer, x+1, y-range, y, range) ||
-                                    Checker (board, gamer, x, y-1, y, range);
+                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    checker (board, gamer, x+1, y-range, y, range) ||
+                                    checker (board, gamer, x, y-1, y, range);
                         else
                         if (from == y-1)
-                            b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    Checker (board, gamer, x+1, y-range, y, range);
+                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                                    checker (board, gamer, x+1, y-range, y, range);
                     }
                 else
-                if (from < range && from != range-1)
-                    b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                            Checker (board, gamer, x+1, y-range, y, range) ||
-                            Checker (board, gamer, x, y+1, y, range);
+                if (from < range /*&& from != range-1*/){
+                    b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                            checker (board, gamer, x+1, y-range, y, range);
+                    if (y<2*range-2)
+                        b = b || checker (board, gamer, x, y+1, y, range);
+                }
                 else
                 if (from == y+1)
-                    b = Checker (board, gamer, x+1, y-range+1, y, range) ||
-                            Checker (board, gamer, x+1, y-range, y, range);
+                    b = checker (board, gamer, x+1, y-range+1, y, range) ||
+                            checker (board, gamer, x+1, y-range, y, range);
             }
         }
 
@@ -240,48 +246,50 @@ public class PlayScreen extends JFrame {
                 if (y < range)
                     if (x != 0)
                         if (x != range-1)
-                            b = Checker (board, gamer, x, y+1, y, range) ||
-                                    Checker (board, gamer, x-1, y+range, x, range) ||
-                                    Checker (board, gamer, x, y+range, x, range);
+                            b = checker (board, gamer, x, y+1, y, range) ||
+                                    checker (board, gamer, x-1, y+range, x, range) ||
+                                    checker (board, gamer, x, y+range, x, range);
                         else
-                            b = Checker (board, gamer, x, y+1, x, range) ||
-                                    Checker (board, gamer, x-1, y+range, x, range);
+                            b = checker (board, gamer, x, y+1, x, range) ||
+                                    checker (board, gamer, x-1, y+range, x, range);
                     else
-                        b = Checker (board, gamer, x, y+1, x, range) ||
-                                Checker (board, gamer, x, y+range, x, range);
+                        b = checker (board, gamer, x, y+1, x, range) ||
+                                checker (board, gamer, x, y+range, x, range);
 
                 else
                 if (x != 0)
                     if (x != range-2)
                     {
                         if (from == x-1)
-                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    Checker (board, gamer, x, y-range+1, x, range) ||
-                                    Checker (board, gamer, x+1, y, x, range);
+                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    checker (board, gamer, x, y-range+1, x, range) ||
+                                    checker (board, gamer, x+1, y, x, range);
                         else
                         if (from == x+1)
-                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    Checker (board, gamer, x, y-range+1, x, range) ||
-                                    Checker (board, gamer, x-1, y, x, range);
+                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    checker (board, gamer, x, y-range+1, x, range) ||
+                                    checker (board, gamer, x-1, y, x, range);
                     }
                     else
                     {
                         if (from == x-1)
-                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    Checker (board, gamer, x, y-range+1, x, range);
+                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    checker (board, gamer, x, y-range+1, x, range);
                         else
-                            b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    Checker (board, gamer, x, y-range+1, x, range) ||
-                                    Checker (board, gamer, x-1, y, x, range);
+                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
+                                    checker (board, gamer, x, y-range+1, x, range) ||
+                                    checker (board, gamer, x-1, y, x, range);
                     }
                 else
                 if (from == x+1)
-                    b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                            Checker (board, gamer, x, y-range+1, x, range);
-                else
-                    b = Checker (board, gamer, x+1, y-range+1, x, range) ||
-                            Checker (board, gamer, x, y-range+1, x, range) ||
-                            Checker (board, gamer, x+1, y, x, range);
+                    b = checker (board, gamer, x+1, y-range+1, x, range) ||
+                            checker (board, gamer, x, y-range+1, x, range);
+                else {
+                    b = checker(board, gamer, x + 1, y - range + 1, x, range) ||
+                            checker(board, gamer, x, y - range + 1, x, range);
+                    if (y < 2 * range - 2)
+                        b = b || checker(board, gamer, x + 1, y, x, range);
+                }
             }
         }
         return b;
