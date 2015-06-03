@@ -69,7 +69,7 @@ public class PlayScreen extends JFrame {
         add(step);
 
 
-        wplayer = new JLabel(BridgeIt.message[4]+BridgeIt.playa[0]+BridgeIt.message[3]);
+        wplayer = new JLabel(BridgeIt.message[4]+BridgeIt.color[0]+BridgeIt.playa[0]+BridgeIt.message[3]);
         wplayer.setSize(272, 64);
         wplayer.setLocation(504, 80);
         add(wplayer);
@@ -84,7 +84,7 @@ public class PlayScreen extends JFrame {
                 if (JOptionPane.showConfirmDialog(null, BridgeIt.message[0], BridgeIt.title[2],
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     setVisible(false);
-                    BridgeIt.newg = true;
+                    BridgeIt.newgame = true;
                 }
             }
         });
@@ -133,27 +133,33 @@ public class PlayScreen extends JFrame {
     //--------------------
     public static char victoryCheck (char[][] board, int range, int mode) {
         int j;
-        boolean g1 = false, g2 = false;
+        boolean g1 = false, g2 = false, checked[][];
 
-
-        if (mode == 1 || mode == 0)
-        for (j=0; j<range; j++)
-        {
-            if (board[0][j] == '1')
-                g1 = checker (board, '1', 0, j, j, range);
-            if (g1)
-                return '1';
+        if (mode == 1 || mode == 0) {
+            checked = createArrayChecks(range);
+            for (j = 0; j < range; j++) {
+                if (board[0][j] == '1')
+                    g1 = checker(board, '1', 0, j, range, checked);
+                if (g1) {
+                    checked = null;
+                    return '1';
+                }
+            }
         }
 
-        if (mode == 2 || mode == 0)
-        for (j=0; j<range; j++)
-        {
-            if (board[j][0] == '2')
-                g2 = checker (board, '2', j, 0, j, range);
-            if (g2)
-                return '2';
+        if (mode == 2 || mode == 0) {
+            checked = createArrayChecks(range);
+            for (j = 0; j < range; j++) {
+                if (board[j][0] == '2')
+                    g2 = checker(board, '2', j, 0, range, checked);
+                if (g2) {
+                    checked = null;
+                    return '2';
+                }
+            }
         }
 
+        checked = null;
         return '0';
     }
     //--------------------
@@ -162,139 +168,112 @@ public class PlayScreen extends JFrame {
 
     //Функция проверки соединения сторон ломаной (для 1 игрока - верхней и нижней, для 2 - левой и правой)
     //--------------------
-    public static boolean checker (char[][] board, char gamer, int x, int y, int from, int range)
+    public static boolean checker (char[][] board, char gamer, int x, int y, int range, boolean[][] checked)
     {
-        int j, k;
         boolean b = false;
 
-        if (gamer == '1')
-        {
+        if (gamer == '1') {
             if (board[x][y] != '1')
                 return false;
-            else
-            {
-
+            else {
+                checked[x][y]= true;
                 if (x == range-1)
                     return true;
                 else
-
-                if (y < range)
-                    if (y != 0)
-                        if (y != range-1)
-                            b = checker (board, gamer, x+1, y, y, range) ||
-                                    checker (board, gamer, x, y+range-1, y, range) ||
-                                    checker (board, gamer, x, y+range, y, range);
-                        else
-                            b = checker (board, gamer, x+1, y, y, range) ||
-                                    checker (board, gamer, x, y+range-1, y, range);
-                    else
-                        b = checker (board, gamer, x+1, y, y, range) ||
-                                checker (board, gamer, x, y+range, y, range);
-
-                else
-
-                if (y != range)
-                    if (y != 2*(range-1))
-                        if (from < range)
-                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    checker (board, gamer, x+1, y-range, y, range) ||
-                                    checker (board, gamer, x, y-1, y, range) ||
-                                    checker (board, gamer, x, y+1, y, range);
-                        else
-                        if (from == y+1)
-                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    checker (board, gamer, x+1, y-range, y, range) ||
-                                    checker (board, gamer, x, y-1, y, range);
-                        else
-                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    checker (board, gamer, x+1, y-range, y, range) ||
-                                    checker (board, gamer, x, y+1, y, range);
-                    else
-                    {
-                        if (from < range)
-                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    checker (board, gamer, x+1, y-range, y, range) ||
-                                    checker (board, gamer, x, y-1, y, range);
-                        else
-                        if (from == y-1)
-                            b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                                    checker (board, gamer, x+1, y-range, y, range);
-                    }
-                else
-                if (from < range /*&& from != range-1*/){
-                    b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                            checker (board, gamer, x+1, y-range, y, range);
-                    if (y<2*range-2)
-                        b = b || checker (board, gamer, x, y+1, y, range);
+                if (y < range){
+                    if (x != range-1 && !checked[x+1][y])
+                        b = b || checker(board, gamer, x+1, y, range, checked);
+                    if (x != 0 && !checked[x-1][y])
+                        b = b || checker(board, gamer, x-1, y, range, checked);
+                    if (x != range-1 && y != 0 && !checked[x][y+range-1])
+                        b = b || checker(board, gamer, x, y+range-1, range, checked);
+                    if (x != range-1 && y != range-1 && !checked[x][y+range])
+                        b = b || checker(board, gamer, x, y+range, range, checked);
+                    if (x != 0 && y != 0 && !checked[x-1][y+range-1])
+                        b = b || checker(board, gamer, x-1, y+range-1, range, checked);
+                    if (x != 0 && y != range-1 && !checked[x-1][y+range])
+                        b = b || checker(board, gamer, x-1, y+range, range, checked);
                 }
-                else
-                if (from == y+1)
-                    b = checker (board, gamer, x+1, y-range+1, y, range) ||
-                            checker (board, gamer, x+1, y-range, y, range);
+                else {
+                    if (!checked[x][y-range])
+                        b = b || checker(board, gamer, x, y-range, range, checked);
+                    if (!checked[x][y-range+1])
+                        b = b || checker(board, gamer, x, y-range+1, range, checked);
+                    if (!checked[x+1][y-range])
+                        b = b || checker(board, gamer, x+1, y-range, range, checked);
+                    if (!checked[x+1][y-range+1])
+                        b = b || checker(board, gamer, x+1, y-range+1, range, checked);
+                    if (y != range && !checked[x][y-1])
+                        b = b || checker(board, gamer, x, y-1, range, checked);
+                    if (y != 2*range-2 && !checked[x][y+1])
+                        b = b || checker(board, gamer, x, y+1, range, checked);
+                }
             }
         }
 
-        else
-        {
-            if (board[x][y] == '0'  ||  board[x][y] == '1')
+        else {
+            if (board[x][y] != '2')
                 return false;
-            else
-            {
+            else {
+                checked[x][y]= true;
                 if (y == range-1)
                     return true;
                 else
-                if (y < range)
-                    if (x != 0)
-                        if (x != range-1)
-                            b = checker (board, gamer, x, y+1, y, range) ||
-                                    checker (board, gamer, x-1, y+range, x, range) ||
-                                    checker (board, gamer, x, y+range, x, range);
-                        else
-                            b = checker (board, gamer, x, y+1, x, range) ||
-                                    checker (board, gamer, x-1, y+range, x, range);
-                    else
-                        b = checker (board, gamer, x, y+1, x, range) ||
-                                checker (board, gamer, x, y+range, x, range);
-
-                else
-                if (x != 0)
-                    if (x != range-2)
-                    {
-                        if (from == x-1)
-                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    checker (board, gamer, x, y-range+1, x, range) ||
-                                    checker (board, gamer, x+1, y, x, range);
-                        else
-                        if (from == x+1)
-                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    checker (board, gamer, x, y-range+1, x, range) ||
-                                    checker (board, gamer, x-1, y, x, range);
-                    }
-                    else
-                    {
-                        if (from == x-1)
-                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    checker (board, gamer, x, y-range+1, x, range);
-                        else
-                            b = checker (board, gamer, x+1, y-range+1, x, range) ||
-                                    checker (board, gamer, x, y-range+1, x, range) ||
-                                    checker (board, gamer, x-1, y, x, range);
-                    }
-                else
-                if (from == x+1)
-                    b = checker (board, gamer, x+1, y-range+1, x, range) ||
-                            checker (board, gamer, x, y-range+1, x, range);
+                if (y < range){
+                    if (y != range-1 && !checked[x][y+1])
+                        b = b || checker(board, gamer, x, y+1, range, checked);
+                    if (y != 0 && !checked[x][y-1])
+                        b = b || checker(board, gamer, x, y-1, range, checked);
+                    if (x != range-1 && y != 0 && !checked[x][y+range-1])
+                        b = b || checker(board, gamer, x, y+range-1, range, checked);
+                    if (x != range-1 && y != range-1 && !checked[x][y+range])
+                        b = b || checker(board, gamer, x, y+range, range, checked);
+                    if (x != 0 && y != 0 && !checked[x-1][y+range-1])
+                        b = b || checker(board, gamer, x-1, y+range-1, range, checked);
+                    if (x != 0 && y != range-1 && !checked[x-1][y+range])
+                        b = b || checker(board, gamer, x-1, y+range, range, checked);
+                }
                 else {
-                    b = checker(board, gamer, x + 1, y - range + 1, x, range) ||
-                            checker(board, gamer, x, y - range + 1, x, range);
-                    if (y < 2 * range - 2)
-                        b = b || checker(board, gamer, x + 1, y, x, range);
+                    if (!checked[x][y-range])
+                        b = b || checker(board, gamer, x, y-range, range, checked);
+                    if (!checked[x][y-range+1])
+                        b = b || checker(board, gamer, x, y-range+1, range, checked);
+                    if (!checked[x+1][y-range])
+                        b = b || checker(board, gamer, x+1, y-range, range, checked);
+                    if (!checked[x+1][y-range+1])
+                        b = b || checker(board, gamer, x+1, y-range+1, range, checked);
+                    if (x != 0 && !checked[x-1][y])
+                        b = b || checker(board, gamer, x-1, y, range, checked);
+                    if (x != range-2 && !checked[x+1][y])
+                        b = b || checker(board, gamer, x+1, y, range, checked);
                 }
             }
         }
+
         return b;
     }
     //--------------------
 
+
+    //Функция, создающая массив для отметки уже проверенных клеток игрового поля
+    //--------------------
+    static boolean[][] createArrayChecks (int range){
+        int i,j;
+        boolean[][] checked;
+
+        checked = new boolean[range][];
+        for (i=0; i<range-1; i++)
+        {
+            checked[i] = new boolean [2*range-1];
+            for (j=0; j<2*range-1; j++)
+                checked[i][j] = false;
+        }
+        checked[i] = new boolean[range];
+        for (j=0; j<range; j++)
+            checked[i][j] = false;
+
+        return checked;
+    }
+    //--------------------
 }
 

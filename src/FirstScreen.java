@@ -23,65 +23,15 @@ public class FirstScreen extends JFrame {
         intro.setLocation(24, 16);
         add(intro);
 
+        addModeButton(op, 0, 0);
+        addModeButton(op, 1, 0);
 
-        op[0] = new JButton("<html><font size=5>компьютер</font></html>");
-        op[0].setSize(192, 64);
-        op[0].setLocation(154, 192);
-        op[0].setBackground(Color.LIGHT_GRAY);
-        add(op[0]);
-        op[0].addActionListener(new OpChoice(op, cond, 0, 0));
-
-        op[1] = new JButton("<html><font size=5>человек</font></html>");
-        op[1].setSize(192, 64);
-        op[1].setLocation(154, 272);
-        op[1].setBackground(Color.LIGHT_GRAY);
-        add(op[1]);
-        op[1].addActionListener(new OpChoice(op, cond, 1, 0));
-
-
-        s[0] = new JButton("<html><font size=5>2</font></html>");
-        s[0].setSize(64, 64);
-        s[0].setLocation(426, 192);
-        s[0].setBackground(Color.LIGHT_GRAY);
-        add(s[0]);
-        s[0].addActionListener(new OpChoice(s, cond, 0, 1));
-
-        s[1] = new JButton("<html><font size=5>3</font></html>");
-        s[1].setSize(64, 64);
-        s[1].setLocation(506, 192);
-        s[1].setBackground(Color.LIGHT_GRAY);
-        add(s[1]);
-        s[1].addActionListener(new OpChoice(s, cond, 1, 1));
-
-
-        s[2] = new JButton("<html><font size=5>4</font></html>");
-        s[2].setSize(64, 64);
-        s[2].setLocation(586, 192);
-        s[2].setBackground(Color.LIGHT_GRAY);
-        add(s[2]);
-        s[2].addActionListener(new OpChoice(s, cond, 2, 1));
-
-        s[3] = new JButton("<html><font size=5>5</font></html>");
-        s[3].setSize(64, 64);
-        s[3].setLocation(426, 272);
-        s[3].setBackground(Color.LIGHT_GRAY);
-        add(s[3]);
-        s[3].addActionListener(new OpChoice(s, cond, 3, 1));
-
-        s[4] = new JButton("<html><font size=5>6</font></html>");
-        s[4].setSize(64, 64);
-        s[4].setLocation(506, 272);
-        s[4].setBackground(Color.LIGHT_GRAY);
-        add(s[4]);
-        s[4].addActionListener(new OpChoice(s, cond, 4, 1));
-
-        s[5] = new JButton("<html><font size=5>7</font></html>");
-        s[5].setSize(64, 64);
-        s[5].setLocation(586, 272);
-        s[5].setBackground(Color.LIGHT_GRAY);
-        add(s[5]);
-        s[5].addActionListener(new OpChoice(s, cond, 5, 1));
-
+        addModeButton(s, 0, 1);
+        addModeButton(s, 1, 1);
+        addModeButton(s, 2, 1);
+        addModeButton(s, 3, 1);
+        addModeButton(s, 4, 1);
+        addModeButton(s, 5, 1);
 
         ex = new JButton("<html><font size=6>В Ы Х О Д</font></html>");
         ex.setSize(752, 64);
@@ -97,10 +47,37 @@ public class FirstScreen extends JFrame {
     }
 
 
+
     //Функция возврата выбраных пользователем режима игры и размера поля
     //--------------------
     public int[] pushChoice() {
         return cond;
+    }
+    //--------------------
+
+
+
+    //Функция добавления на экран кнопок выбора режима игры
+    //--------------------
+    void addModeButton (JButton[] btn, int num, int grp){
+        if (grp == 0) {
+            if (num == 0)
+                btn[num] = new JButton("<html><font size=5>компьютер</font></html>");
+
+            else
+                btn[num] = new JButton("<html><font size=5>человек</font></html>");
+            btn[num].setSize(192, 64);
+            btn[num].setLocation(154, 192+80*num);
+        }
+        else {
+            btn[num] = new JButton("<html><font size=5>"+(num+2)+"</font></html>");
+            btn[num].setSize(64, 64);
+            btn[num].setLocation(426+80*(num%3), 192+80*(num/3));
+        }
+
+        btn[num].setBackground(Color.LIGHT_GRAY);
+        add(btn[num]);
+        btn[num].addActionListener(new OpChoice(btn, cond, num, grp));
     }
     //--------------------
 
