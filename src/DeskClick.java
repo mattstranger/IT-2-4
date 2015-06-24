@@ -95,7 +95,7 @@ public class DeskClick implements MouseMotionListener, MouseListener {
                 }
             }
         }
-        BridgeIt.victory = PlayScreen.victoryCheck(d, BridgeIt.start[1], 0);
+        BridgeIt.victory = PlayScreen.victoryCheck(d, FirstScreen.cond[1], 0);
     }
     //--------------------
 

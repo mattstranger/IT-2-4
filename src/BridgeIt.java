@@ -1,18 +1,17 @@
 import javax.swing.*;
 
 public class BridgeIt {
-    static int start[]= new int[2];
     static boolean newgame = false, auth;
     static char victory = '0';
     static String[] playa = new String[2];
 
-    static String[] title = {   "Bridge-It",
+    final static String[] title = {"Bridge-It",
                                 "Авторизация",
                                 "НОВАЯ ИГРА",
                                 "ВЫХОД",
                                 "Игра окончена" };
 
-    static String[] message = { "Вы уверены, что хотите начать новую игру?",
+    final static String[] message = {"Вы уверены, что хотите начать новую игру?",
                                 "Вы уверены, что хотите выйти?",
                                 "<html><font size=5>ХОД: ",
                                 "</font></html>",
@@ -23,7 +22,7 @@ public class BridgeIt {
                                 "<html>Хотите сменить никнейм, <font color=",
                                 "</font>?</html>" };
 
-    static String[] color = {   "blue>",
+    final static String[] color = {"blue>",
                                 "red>",
                                 "синий",
                                 "красный"
@@ -32,17 +31,16 @@ public class BridgeIt {
 
     public static void main(String[] args) throws InterruptedException {
         while (true) {
-            start[0] = 0;
-            start[1] = 0;
-
             FirstScreen startmenu = new FirstScreen(title[0]);
+            startmenu.cond[0] = 0;
+            startmenu.cond[1] = 0;
             makeNewWindow(startmenu, 800, 480);
-            while (start[0] == 0 || start[1] == 0){
+            while (startmenu.cond[0] == 0 || startmenu.cond[1] == 0){
                 Thread.sleep(100);
-                start = startmenu.pushChoice();}
+                }
             auth = false;
             playa[0] = authorization(playa[0], color[0], color[2]);
-            if (start[0] == 3)
+            if (startmenu.cond[0] == 3)
                 playa[1] = authorization(playa[1], color[1], color[3]);
             else
                 playa[1] = "◊Computer◊";
@@ -50,7 +48,7 @@ public class BridgeIt {
 
             Thread.sleep(100);
 
-            PlayScreen gamewindow = new PlayScreen(title[0]+"  //  level " +start[1]+";  "+playa[0]+" vs "+playa[1], start[0], start[1]);
+            PlayScreen gamewindow = new PlayScreen(title[0]+"  //  level " +startmenu.cond[1]+";  "+playa[0]+" vs "+playa[1], startmenu.cond[0], startmenu.cond[1]);
             makeNewWindow(gamewindow, 800, 480);
             while (true)
             {

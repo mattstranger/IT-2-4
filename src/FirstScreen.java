@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class FirstScreen extends JFrame {
     JButton ex;
     JLabel intro;
-    int cond[] = new int[2];
+    static int cond[] = new int[2];
     JButton op[] = new JButton[2];
     JButton s[] = new JButton[6];
 
@@ -46,14 +46,6 @@ public class FirstScreen extends JFrame {
         });
     }
 
-
-
-    //Функция возврата выбраных пользователем режима игры и размера поля
-    //--------------------
-    public int[] pushChoice() {
-        return cond;
-    }
-    //--------------------
 
 
 

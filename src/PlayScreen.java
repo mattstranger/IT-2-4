@@ -12,7 +12,7 @@ public class PlayScreen extends JFrame {
     char desk[][];
 
 
-    public PlayScreen(String title, int opponent, int level) throws InterruptedException {
+    public PlayScreen(String title, int opponent, int level) {
         super(title);
         setLayout(null);
 
